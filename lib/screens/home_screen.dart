@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../models/vocabulary_data.dart';
 import '../widgets/progress_card.dart';
 import '../widgets/learning_card.dart';
+import '../services/ad_service.dart';
 import 'word_study_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,11 +15,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = true;
+  InterstitialAd? _interstitialAd;
 
   @override
   void initState() {
     super.initState();
     _loadData();
+    _loadInterstitialAd();
   }
 
   Future<void> _loadData() async {
@@ -29,10 +33,40 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> _loadInterstitialAd() async {
+    _interstitialAd = await AdService.createInterstitialAd();
+  }
+
   void _refreshProgress() {
     setState(() {
       // This will trigger a rebuild and update the progress
     });
+  }
+
+  void _navigateToWordStudy(List<VocabularyWord> words, String title) {
+    // Show interstitial ad before navigation
+    AdService.showInterstitialAd(_interstitialAd, onAdClosed: () async {
+      // Navigate to word study screen after ad is closed
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WordStudyScreen(
+            words: words,
+            title: title,
+            onProgressUpdate: _refreshProgress,
+          ),
+        ),
+      );
+      _refreshProgress();
+      // Load a new interstitial ad for next time
+      _loadInterstitialAd();
+    });
+  }
+
+  @override
+  void dispose() {
+    _interstitialAd?.dispose();
+    super.dispose();
   }
 
   @override
@@ -94,18 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         textColor: Colors.white,
                         showContinueButton: true,
                         progress: "13/20",
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => WordStudyScreen(
-                                words: VocabularyData.learnNewWords,
-                                title: "Learn new words",
-                                onProgressUpdate: _refreshProgress,
-                              ),
-                            ),
-                          );
-                          _refreshProgress();
+                        onTap: () {
+                          _navigateToWordStudy(VocabularyData.learnNewWords, "Learn new words");
                         },
                       ),
                     ),
@@ -118,18 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         subtitle: "${VocabularyData.freeHandWords.length} words",
                         backgroundColor: const Color(0xFFB19CD9),
                         textColor: Colors.white,
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => WordStudyScreen(
-                                words: VocabularyData.freeHandWords,
-                                title: "Free-hand mode",
-                                onProgressUpdate: _refreshProgress,
-                              ),
-                            ),
-                          );
-                          _refreshProgress();
+                        onTap: () {
+                          _navigateToWordStudy(VocabularyData.freeHandWords, "Free-hand mode");
                         },
                       ),
                     ),
@@ -140,18 +154,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       subtitle: "${VocabularyData.allWords.length} words",
                       backgroundColor: Colors.white,
                       textColor: Colors.black,
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => WordStudyScreen(
-                              words: VocabularyData.allWords,
-                              title: "Repeat all words",
-                              onProgressUpdate: _refreshProgress,
-                            ),
-                          ),
-                        );
-                        _refreshProgress();
+                      onTap: () {
+                        _navigateToWordStudy(VocabularyData.allWords, "Repeat all words");
                       },
                     ),
                   ],
