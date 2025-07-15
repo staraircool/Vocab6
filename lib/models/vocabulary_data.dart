@@ -134,7 +134,13 @@ class VocabularyData {
   static List<VocabularyWord> get freeHandWords => _freeHandWords;
   static List<VocabularyWord> get allWords => _allWords;
 
-  static int get memorizedToday => _allWords.where((word) => word.isMemorized).length;
+  static int get memorizedToday {
+    int count = 0;
+    for (final word in _allWords) {
+      if (word.isMemorized) count++;
+    }
+    return count;
+  }
   static int get totalWordsToday => 20;
   static double get progressPercentage => memorizedToday / totalWordsToday;
 }

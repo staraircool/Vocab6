@@ -29,6 +29,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _refreshProgress() {
+    setState(() {
+      // This will trigger a rebuild and update the progress
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -74,63 +80,13 @@ class _HomeScreenState extends State<HomeScreen> {
               
               const SizedBox(height: 20),
               
-              // Learning Cards Stack
+              // Learning Cards Stack - Redesigned for proper visibility
               Expanded(
-                child: Stack(
+                child: Column(
                   children: [
-                    // Bottom Card - Repeat all words (White)
-                    Positioned(
-                      top: 80,
-                      left: 0,
-                      right: 0,
-                      child: LearningCard(
-                        title: "Repeat all words",
-                        subtitle: "${VocabularyData.allWords.length} words",
-                        backgroundColor: Colors.white,
-                        textColor: Colors.black,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => WordStudyScreen(
-                                words: VocabularyData.allWords,
-                                title: "Repeat all words",
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    
-                    // Middle Card - Free-hand mode (Lavender)
-                    Positioned(
-                      top: 40,
-                      left: 0,
-                      right: 0,
-                      child: LearningCard(
-                        title: "Free-hand mode",
-                        subtitle: "${VocabularyData.freeHandWords.length} words",
-                        backgroundColor: const Color(0xFFB19CD9),
-                        textColor: Colors.white,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => WordStudyScreen(
-                                words: VocabularyData.freeHandWords,
-                                title: "Free-hand mode",
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    
-                    // Top Card - Learn new words (Dark Blue)
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
+                    // Top Card - Learn new words (Blue gradient)
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 8),
                       child: LearningCard(
                         title: "Learn new words",
                         subtitle: "${VocabularyData.learnNewWords.length} words",
@@ -138,18 +94,65 @@ class _HomeScreenState extends State<HomeScreen> {
                         textColor: Colors.white,
                         showContinueButton: true,
                         progress: "13/20",
-                        onTap: () {
-                          Navigator.push(
+                        onTap: () async {
+                          await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => WordStudyScreen(
                                 words: VocabularyData.learnNewWords,
                                 title: "Learn new words",
+                                onProgressUpdate: _refreshProgress,
                               ),
                             ),
                           );
+                          _refreshProgress();
                         },
                       ),
+                    ),
+                    
+                    // Middle Card - Free-hand mode (Lavender)
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      child: LearningCard(
+                        title: "Free-hand mode",
+                        subtitle: "${VocabularyData.freeHandWords.length} words",
+                        backgroundColor: const Color(0xFFB19CD9),
+                        textColor: Colors.white,
+                        onTap: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WordStudyScreen(
+                                words: VocabularyData.freeHandWords,
+                                title: "Free-hand mode",
+                                onProgressUpdate: _refreshProgress,
+                              ),
+                            ),
+                          );
+                          _refreshProgress();
+                        },
+                      ),
+                    ),
+                    
+                    // Bottom Card - Repeat all words (White)
+                    LearningCard(
+                      title: "Repeat all words",
+                      subtitle: "${VocabularyData.allWords.length} words",
+                      backgroundColor: Colors.white,
+                      textColor: Colors.black,
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WordStudyScreen(
+                              words: VocabularyData.allWords,
+                              title: "Repeat all words",
+                              onProgressUpdate: _refreshProgress,
+                            ),
+                          ),
+                        );
+                        _refreshProgress();
+                      },
                     ),
                   ],
                 ),
