@@ -3,7 +3,7 @@ workflows:
     name: Android Build
     max_build_duration: 120
     environment:
-      flutter: stable
+      flutter: 3.22.0 # A recent stable version that should include a compatible Dart SDK
       java: 17
     triggering:
       events:
