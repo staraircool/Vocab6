@@ -1,30 +1,29 @@
 workflows:
   android-build:
-    name: Android Build
+    name: Android Release AAB Build
     max_build_duration: 120
     environment:
       flutter: stable
       java: 17
-    triggering:
-      events:
-        - push
-      branch_patterns:
-        - pattern: main
-          include: true
+      vars:
+        CM_KEYSTORE: keystore.jks
+        CM_KEYSTORE_PASSWORD: your_keystore_password
+        CM_KEY_ALIAS: release-key
+        CM_KEY_PASSWORD: your_key_password
     scripts:
       - name: Set up Flutter
         script: |
           flutter clean
           flutter pub get
-      - name: Build Android Release
+      - name: Build Signed AAB
         script: |
-          flutter build apk --release
+          flutter build appbundle --release
     artifacts:
-      - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/bundle/release/*.aab
     publishing:
       email:
         recipients:
-          - your_email@example.com # Replace with your email to receive build notifications
+          - your_email@example.com
         notify:
           success: true
           failure: true
