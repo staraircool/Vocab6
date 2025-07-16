@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // Learning Cards Stack - Redesigned for proper visibility
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
                     // Top Card - Learn new words (Blue gradient)
