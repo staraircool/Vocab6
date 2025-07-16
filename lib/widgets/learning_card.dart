@@ -26,7 +26,7 @@ class LearningCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.25,
+        height: 160,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: backgroundColor,
