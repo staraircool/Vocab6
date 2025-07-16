@@ -90,7 +90,7 @@ class ProgressCard extends StatelessWidget {
                           ),
                           Center(
                             child: Text(
-                              "${(progressPercentage * 100).round()}%",
+                              progressPercentage == 0.0 ? '0%' : '${(progressPercentage * 100).round()}%',
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,

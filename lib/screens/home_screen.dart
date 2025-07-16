@@ -99,25 +99,25 @@ class _HomeScreenState extends State<HomeScreen> {
               
               const SizedBox(height: 20),
               
-              // Statistics Label
-              const Align(
-                alignment: Alignment.centerLeft,
+              // Your Statistics Section
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 child: Text(
                   "Your statistics",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 28,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ),
               
-              const SizedBox(height: 20),
-              
               // Learning Cards Stack - Redesigned for proper visibility
               Expanded(
-                child: Column(
-                  children: [
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Column(
+                    children: [
                     // Top Card - Learn new words (Blue gradient)
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
@@ -156,7 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         _navigateToWordStudy(VocabularyData.allWords, "Repeat all words");
                       },
                     ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
