@@ -17,11 +17,7 @@ workflows:
           flutter pub get
       - name: Build Signed AAB
         script: |
-          flutter build appbundle --release \
-            --keystore=$CM_KEYSTORE \
-            --keystore-password=$CM_KEYSTORE_PASSWORD \
-            --key-alias=$CM_KEY_ALIAS \
-            --key-password=$CM_KEY_PASSWORD
+          flutter build appbundle --release
     artifacts:
       - build/app/outputs/bundle/release/*.aab
     publishing:
