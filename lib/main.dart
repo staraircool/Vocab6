@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'screens/home_screen.dart';
+import 'screens/splash_screen.dart';
 import 'services/ad_service.dart';
 
 void main() async {
@@ -17,7 +17,7 @@ class VocablyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Vocably',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.blue,
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Colors.black,
         appBarTheme: const AppBarTheme(
@@ -26,7 +26,8 @@ class VocablyApp extends StatelessWidget {
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
       ),
-      home: const HomeScreen(),
+      home: const SplashScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -123,11 +123,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       margin: const EdgeInsets.only(bottom: 8),
                       child: LearningCard(
                         title: "Learn new words",
-                        subtitle: "${VocabularyData.learnNewWords.length} words",
+                        subtitle: "200 words",
                         backgroundColor: const Color(0xFF6366F1),
                         textColor: Colors.white,
-                        showContinueButton: true,
-                        progress: "13/20",
                         onTap: () {
                           _navigateToWordStudy(VocabularyData.learnNewWords, "Learn new words");
                         },
