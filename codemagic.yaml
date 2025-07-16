@@ -18,9 +18,9 @@ workflows:
           flutter pub get
       - name: Build Android Release
         script: |
-          flutter build apk --release
+          flutter build appbundle --release
     artifacts:
-      - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/bundle/*.aab
     publishing:
       email:
         recipients:
